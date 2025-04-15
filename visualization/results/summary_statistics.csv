@@ -1,0 +1,6 @@
+,avgIceThickness,avgIceThickness,avgIceThickness,maxSnowAccumulation,maxSnowAccumulation,avgSurfaceTemperature,avgSurfaceTemperature,avgSurfaceTemperature,avgExternalTemperature,avgExternalTemperature,avgExternalTemperature
+,mean,min,max,mean,max,mean,min,max,mean,min,max
+location,,,,,,,,,,,
+Dow's Lake,27.5,23.74,30.94,14.5,15.0,-7.33,-9.32,-5.41,-7.56,-9.83,-4.97
+Fifth Avenue,27.78,25.69,31.79,14.48,15.0,-7.4,-8.92,-5.56,-7.73,-9.52,-5.24
+NAC,27.71,25.39,31.89,14.34,14.9,-7.73,-9.57,-6.16,-7.52,-11.15,-5.7
