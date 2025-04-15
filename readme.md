@@ -227,13 +227,74 @@ Alternatively, you can use Storage Explorer:
 3. Navigate to the "rideau-canal-data" container
 4. Browse and download files as needed
 
+### Data Visualization
+
+Using AI, a simple Python program was generated using the Pandas library for data visualization and analysis (visualization folder).
+To visualize the collected data:
+
+1. Install additional required packages:
+   ```
+   pip install azure-storage-blob pandas matplotlib seaborn
+   ```
+
+2. Use the provided visualization script:
+   ```
+   python simple_visualizer.py "YOUR_STORAGE_ACCOUNT_CONNECTION_STRING"
+   ```
+   
+3. The script will:
+   - Connect to your Azure Blob Storage
+   - Retrieve and process all JSON data files
+   - Generate visual charts for ice thickness, snow accumulation, and temperature relationships
+   - Create a summary statistics file
+   - Generate a comprehensive results analysis
+
 ## Results
 
-The real-time monitoring system successfully:
-1. Simulates IoT sensors at three locations along the Rideau Canal Skateway
-2. Sends telemetry data to Azure IoT Hub every 10 seconds
-3. Processes the data using Azure Stream Analytics
-4. Stores aggregated results in Azure Blob Storage
+The real-time monitoring system successfully collected and processed sensor data from three key locations along the Rideau Canal Skateway over a two-hour period. The system aggregated 30 readings per 5-minute window across all three locations.
+
+### Aggregated Data Analysis
+
+The Stream Analytics job aggregated data into 5-minute windows, calculating average values for key metrics. Sample aggregated output is shown below:
+
+| Location | Time Window | Avg Ice Thickness (cm) | Max Snow Accumulation (cm) | Avg Surface Temp (°C) |
+|----------|-------------|------------------------|----------------------------|------------------------|
+| Dow's Lake | 2025-04-14T23:55:00Z | 31.63 | 14.0 | -7.63 |
+| NAC | 2025-04-14T23:55:00Z | 27.57 | 13.4 | -4.13 |
+| Fifth Avenue | 2025-04-14T23:55:00Z | 27.55 | 14.7 | -8.20 |
+
+### Key Findings
+
+#### Ice Thickness Patterns
+
+![Ice Thickness Over Time](visualization/screenshots/ice_thickness_over_time.png)
+
+The visualization reveals several important insights:
+
+1. **Significant Fluctuations**: Ice thickness varies considerably between approximately 24 cm and 32 cm over just a 2-hour monitoring period, demonstrating the importance of real-time monitoring for safety management.
+
+2. **Location-Specific Variations**: Each monitoring point shows distinct patterns:
+   - **NAC**: Shows the most dramatic peaks, reaching ~32 cm around midnight
+   - **Fifth Avenue**: Demonstrates high variability, with a notable peak (~31.8 cm) around 1:00 AM
+   - **Dow's Lake**: Experienced the most significant drop (to ~23.8 cm) around 12:30 AM, which could potentially trigger safety alerts
+
+3. **Independent Patterns**: The three locations don't follow identical patterns, suggesting that local conditions affect ice thickness differently throughout the canal.
+
+#### Temperature and Ice Relationships
+
+![Temperature vs Ice Thickness](visualization/results/temperature_vs_thickness.png)
+
+Analysis of the relationship between surface temperature and ice thickness reveals:
+
+1. **No Strong Linear Correlation**: There isn't a simple direct relationship between temperature and ice thickness in this timeframe.
+
+2. **Temperature Range**: The system successfully captured surface temperatures from approximately -9.5°C to -6°C.
+
+3. **Location-Specific Relationships**: Each location shows a slightly different pattern in how temperature relates to ice thickness, with NAC showing the widest range of thickness values.
+
+4. **Thickest Ice Measurements**: The highest thickness readings (31-32 cm) occur across different temperatures, suggesting other factors may influence thickness beyond just temperature.
+
+These visualizations demonstrate that the real-time monitoring system is successfully capturing meaningful variations in ice conditions that would be valuable for the National Capital Commission to make informed decisions about skateway safety and maintenance.
 
 ### Sample Outputs
 
@@ -259,7 +320,11 @@ These results provide valuable insights into the conditions of the Rideau Canal 
    - **Challenge**: Determining the optimal window size for aggregation.
    - **Solution**: After testing different window sizes, a 5-minute tumbling window was chosen as it provides a good balance between timely updates and meaningful aggregation of data.
 
-4. **Asynchronous Programming**:
+4. **Data Visualization**:
+   - **Challenge**: Creating meaningful visualizations from time-series IoT data.
+   - **Solution**: Implemented a Python-based visualization solution that automatically extracts data from Azure Blob Storage and generates insightful charts that clearly show patterns and relationships in the data.
+
+5. **Asynchronous Programming**:
    - **Challenge**: Managing multiple concurrent sensor simulations.
    - **Solution**: Implemented Python's asyncio library to run all sensor simulations concurrently, ensuring efficient resource usage and simplified code structure.
 
